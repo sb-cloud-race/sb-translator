@@ -41,6 +41,13 @@ public class JaxbWithoutRootElementHttpMessageConverter extends AbstractJaxb2Htt
 
     @Override
     protected void writeToResult(Object o, HttpHeaders httpHeaders, Result result) throws Exception {
+        // TODO move it to another converter, and add into configureMessageConverters
+        // used in DebugController
+        if (o instanceof String) {
+            StreamResult streamResult = (StreamResult) result;
+            streamResult.getOutputStream().write(((String) o).getBytes());
+            return;
+        }
         JAXBContext jaxbContext = JAXBContext.newInstance(o.getClass());
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
