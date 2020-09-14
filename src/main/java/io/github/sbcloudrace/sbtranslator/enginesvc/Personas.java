@@ -3,10 +3,7 @@ package io.github.sbcloudrace.sbtranslator.enginesvc;
 import io.github.sbcloudrace.sbtranslator.jaxb.http.*;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/personas")
@@ -147,7 +144,28 @@ public class Personas {
 
     @RequestMapping(value = "/{personaId}/baskets", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
-    public CommerceResultTrans baskets(@PathVariable String personaId){
-        return new CommerceResultTrans();
+    public CommerceResultTrans baskets(@PathVariable String personaId, @RequestBody BasketTrans basketTrans){
+        CommerceResultTrans commerceResultTrans = new CommerceResultTrans();
+
+        ArrayOfInventoryItemTrans arrayOfInventoryItemTrans = new ArrayOfInventoryItemTrans();
+        arrayOfInventoryItemTrans.getInventoryItemTrans().add(new InventoryItemTrans());
+
+        WalletTrans walletTrans = new WalletTrans();
+        walletTrans.setBalance(0);
+        walletTrans.setCurrency("CASH");
+
+        ArrayOfWalletTrans arrayOfWalletTrans = new ArrayOfWalletTrans();
+        arrayOfWalletTrans.getWalletTrans().add(walletTrans);
+
+        commerceResultTrans.setWallets(arrayOfWalletTrans);
+        commerceResultTrans.setCommerceItems(new ArrayOfCommerceItemTrans());
+        commerceResultTrans.setInvalidBasket(new InvalidBasketTrans());
+        commerceResultTrans.setInventoryItems(arrayOfInventoryItemTrans);
+
+        String productId = basketTrans.getItems().getBasketItemTrans().get(0).getProductId();
+        if ("SRV-GARAGESLOT".equals(productId) || "-1".equals(productId) || productId.contains("SRV-POWERUP") || productId.equals("SRV-THREVIVE")) {
+            commerceResultTrans.setStatus(CommerceResultStatus.FAIL_INSUFFICIENT_FUNDS);
+        }
+        return commerceResultTrans;
     }
 }
