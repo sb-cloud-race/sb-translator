@@ -1,9 +1,6 @@
 package io.github.sbcloudrace.sbtranslator.enginesvc;
 
-import io.github.sbcloudrace.sbtranslator.jaxb.http.ArrayOfBadgePacket;
-import io.github.sbcloudrace.sbtranslator.jaxb.http.ArrayOfInt;
-import io.github.sbcloudrace.sbtranslator.jaxb.http.ArrayOfPersonaBase;
-import io.github.sbcloudrace.sbtranslator.jaxb.http.ProfileData;
+import io.github.sbcloudrace.sbtranslator.jaxb.http.*;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.InputStream;
+import java.util.List;
 
 @Controller
 @RequestMapping("/DriverPersona")
@@ -85,12 +83,12 @@ public class DriverPersona {
 
     @RequestMapping(value = "/GetPersonaBaseFromList", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
-    public void getPersonaBaseFromList(){
+    public void getPersonaBaseFromList() {
     }
 
     @RequestMapping(value = "/UpdatePersonaPresence", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
-    public void updatePersonaPresence(){
+    public void updatePersonaPresence() {
     }
 
     @RequestMapping(value = "/GetPersonaInfo", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
@@ -110,6 +108,26 @@ public class DriverPersona {
         profileData.setRepAtCurrentLevel(0);
         profileData.setScore(0);
         return profileData;
+    }
+
+    @RequestMapping(value = "/GetPersonaPresenceByName", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public PersonaPresence GetPersonaPresenceByName() {
+        return new PersonaPresence();
+    }
+
+    @RequestMapping(value = "/ReserveName", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public ArrayOfString reserveName() {
+        ArrayOfString arrayOfString = new ArrayOfString();
+        arrayOfString.getString().add("NONE");
+        return arrayOfString;
+    }
+
+    @RequestMapping(value = "/DeletePersona", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public String deletePersona() {
+        return "<long>0</long>";
     }
 
 }

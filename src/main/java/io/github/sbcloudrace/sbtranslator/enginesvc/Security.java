@@ -20,4 +20,10 @@ public class Security {
         fraudConfig.setUserID(userId);
         return fraudConfig;
     }
+
+    @RequestMapping(value = "/generateWebToken", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public void generateWebToken() {
+    }
+
 }

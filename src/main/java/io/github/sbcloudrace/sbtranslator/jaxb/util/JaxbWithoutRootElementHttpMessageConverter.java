@@ -42,7 +42,7 @@ public class JaxbWithoutRootElementHttpMessageConverter extends AbstractJaxb2Htt
     @Override
     protected void writeToResult(Object o, HttpHeaders httpHeaders, Result result) throws Exception {
         // TODO move it to another converter, and add into configureMessageConverters
-        // used in DebugController
+        // used in DebugController and DriverPersona/DeletePersona
         if (o instanceof String) {
             StreamResult streamResult = (StreamResult) result;
             streamResult.getOutputStream().write(((String) o).getBytes());

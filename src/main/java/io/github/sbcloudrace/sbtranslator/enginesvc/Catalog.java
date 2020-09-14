@@ -1,5 +1,6 @@
 package io.github.sbcloudrace.sbtranslator.enginesvc;
 
+import io.github.sbcloudrace.sbtranslator.jaxb.http.ArrayOfCategoryTrans;
 import io.github.sbcloudrace.sbtranslator.jaxb.http.ArrayOfProductTrans;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -16,5 +17,11 @@ public class Catalog {
     @ResponseBody
     public ArrayOfProductTrans productsInCategory(@RequestParam("categoryName") String categoryName) {
         return new ArrayOfProductTrans();
+    }
+
+    @RequestMapping(value = "/categories", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public ArrayOfCategoryTrans categories() {
+        return new ArrayOfCategoryTrans();
     }
 }

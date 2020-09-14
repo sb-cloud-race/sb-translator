@@ -47,4 +47,9 @@ public class User {
     public void secureLoginPersona(){
     }
 
+    @RequestMapping(value = "/SecureLogoutPersona", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public void secureLogoutPersona(){
+    }
+
 }

@@ -134,4 +134,20 @@ public class Personas {
         inventoryItemTrans.setVirtualItemType("powerup");
         return inventoryItemTrans;
     }
+
+    @RequestMapping(value = "/{personaId}/defaultcar/{carId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public void putDefaultCar(@PathVariable String personaId, @PathVariable String carId){
+    }
+
+    @RequestMapping(value = "/{personaId}/cars", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public void postCars(@PathVariable String personaId){
+    }
+
+    @RequestMapping(value = "/{personaId}/baskets", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public CommerceResultTrans baskets(@PathVariable String personaId){
+        return new CommerceResultTrans();
+    }
 }
