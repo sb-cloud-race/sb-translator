@@ -1,11 +1,16 @@
 package io.github.sbcloudrace.sbtranslator.enginesvc;
 
+import io.github.sbcloudrace.sbtranslator.jaxb.http.ArrayOfBadgePacket;
 import io.github.sbcloudrace.sbtranslator.jaxb.http.ArrayOfInt;
+import io.github.sbcloudrace.sbtranslator.jaxb.http.ArrayOfPersonaBase;
+import io.github.sbcloudrace.sbtranslator.jaxb.http.ProfileData;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.InputStream;
 
 @Controller
 @RequestMapping("/DriverPersona")
@@ -76,6 +81,35 @@ public class DriverPersona {
         arrayOfInt.getInt().add(9403075);
         arrayOfInt.getInt().add(9992125);
         return arrayOfInt;
+    }
+
+    @RequestMapping(value = "/GetPersonaBaseFromList", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public void getPersonaBaseFromList(){
+    }
+
+    @RequestMapping(value = "/UpdatePersonaPresence", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public void updatePersonaPresence(){
+    }
+
+    @RequestMapping(value = "/GetPersonaInfo", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public ProfileData getPersonaInfo() {
+        ProfileData profileData = new ProfileData();
+        profileData.setName("SPRING");
+        profileData.setCash(0);
+        profileData.setIconIndex(0);
+        profileData.setPersonaId(100L);
+        profileData.setLevel(3);
+        profileData.setBadges(new ArrayOfBadgePacket());
+        profileData.setMotto("THERE'S NO END, UNTIL WE SAY SO!");
+        profileData.setPercentToLevel(0);
+        profileData.setRating(0);
+        profileData.setRep(0);
+        profileData.setRepAtCurrentLevel(0);
+        profileData.setScore(0);
+        return profileData;
     }
 
 }
