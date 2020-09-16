@@ -5,15 +5,12 @@ import io.github.sbcloudrace.sbtranslator.jaxb.http.GetPermanentSessionData;
 import io.github.sbcloudrace.sbtranslator.jaxb.http.ProfileData;
 import io.github.sbcloudrace.sbtranslator.jaxb.http.UserInfo;
 import io.github.sbcloudrace.sbtranslator.jaxb.util.UnauthorizedException;
+import io.github.sbcloudrace.sbtranslator.sbopenfireapi.SbOpenfireServiceProxy;
 import io.github.sbcloudrace.sbtranslator.sbsession.SbSessionServiceProxy;
-import lombok.*;
-import org.springframework.http.HttpStatus;
+import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/User")
@@ -21,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 public class User {
 
     private final SbSessionServiceProxy userSessionServiceProxy;
+
+    private final SbOpenfireServiceProxy sbOpenfireServiceProxy;
 
     @RequestMapping(value = "/GetPermanentSession", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
@@ -50,6 +49,7 @@ public class User {
             throw new UnauthorizedException();
         }
         userInfo.getUser().setSecurityToken(permanentToken);
+        sbOpenfireServiceProxy.createAllPersonasXmpp(userId, permanentToken);
         return userInfo;
     }
 
