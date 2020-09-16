@@ -4,18 +4,29 @@ import io.github.sbcloudrace.sbtranslator.jaxb.http.ArrayOfProfileData;
 import io.github.sbcloudrace.sbtranslator.jaxb.http.GetPermanentSessionData;
 import io.github.sbcloudrace.sbtranslator.jaxb.http.ProfileData;
 import io.github.sbcloudrace.sbtranslator.jaxb.http.UserInfo;
+import io.github.sbcloudrace.sbtranslator.jaxb.util.UnauthorizedException;
+import io.github.sbcloudrace.sbtranslator.sbsession.SbSessionServiceProxy;
+import lombok.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 @RequestMapping("/User")
+@AllArgsConstructor
 public class User {
+
+    private final SbSessionServiceProxy userSessionServiceProxy;
 
     @RequestMapping(value = "/GetPermanentSession", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
     public UserInfo getPermanentSession(
             @RequestHeader("userId") Long userId,
+            @RequestHeader("securityToken") String securityToken,
             @RequestBody GetPermanentSessionData permanentSessionData
     ) {
         UserInfo userInfo = new UserInfo();
@@ -34,6 +45,11 @@ public class User {
         io.github.sbcloudrace.sbtranslator.jaxb.http.User user = new io.github.sbcloudrace.sbtranslator.jaxb.http.User();
         user.setUserId(userId);
         userInfo.setUser(user);
+        String permanentToken = userSessionServiceProxy.createPermanentSession(userId, securityToken);
+        if (permanentToken == null || permanentToken.isEmpty()) {
+            throw new UnauthorizedException();
+        }
+        userInfo.getUser().setSecurityToken(permanentToken);
         return userInfo;
     }
 
@@ -44,12 +60,12 @@ public class User {
 
     @RequestMapping(value = "/SecureLoginPersona", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
-    public void secureLoginPersona(){
+    public void secureLoginPersona() {
     }
 
     @RequestMapping(value = "/SecureLogoutPersona", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
-    public void secureLogoutPersona(){
+    public void secureLogoutPersona() {
     }
 
 }

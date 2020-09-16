@@ -48,6 +48,13 @@ public class JaxbWithoutRootElementHttpMessageConverter extends AbstractJaxb2Htt
             streamResult.getOutputStream().write(((String) o).getBytes());
             return;
         }
+        //TODO move it to another converter, and add into configureMessageConverters
+        if (o instanceof RuntimeException) {
+            RuntimeException exception = (RuntimeException) o;
+            StreamResult streamResult = (StreamResult) result;
+            streamResult.getOutputStream().write(exception.getMessage().getBytes());
+            return;
+        }
         JAXBContext jaxbContext = JAXBContext.newInstance(o.getClass());
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
