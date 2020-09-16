@@ -86,6 +86,7 @@ public class ObjectFactory {
     private final static QName _PursuitArbitrationPacket_QNAME = new QName("", "PursuitArbitrationPacket");
     private final static QName _ArrayOfstring_QNAME = new QName("", "ArrayOfstring");
     private final static QName _EventResult_QNAME = new QName("", "EventResult");
+    private final static QName _ClientServerCryptoTicket_QNAME = new QName("", "ClientServerCryptoTicket");
     private final static QName _ArrayOfInt_QNAME = new QName("", "ArrayOfInt");
     private final static QName _UdpRelayCryptoTicket_QNAME = new QName("", "UdpRelayCryptoTicket");
     private final static QName _InventoryTrans_QNAME = new QName("", "InventoryTrans");
@@ -591,6 +592,14 @@ public class ObjectFactory {
      */
     public EventResult createEventResult() {
         return new EventResult();
+    }
+
+    /**
+     * Create an instance of {@link ClientServerCryptoTicket }
+     * 
+     */
+    public ClientServerCryptoTicket createClientServerCryptoTicket() {
+        return new ClientServerCryptoTicket();
     }
 
     /**
@@ -1717,6 +1726,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "EventResult")
     public JAXBElement<EventResult> createEventResult(EventResult value) {
         return new JAXBElement<EventResult>(_EventResult_QNAME, EventResult.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ClientServerCryptoTicket }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "", name = "ClientServerCryptoTicket")
+    public JAXBElement<ClientServerCryptoTicket> createClientServerCryptoTicket(ClientServerCryptoTicket value) {
+        return new JAXBElement<ClientServerCryptoTicket>(_ClientServerCryptoTicket_QNAME, ClientServerCryptoTicket.class, null, value);
     }
 
     /**
