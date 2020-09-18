@@ -1,8 +1,10 @@
 package io.github.sbcloudrace.sbtranslator.enginesvc;
 
 import io.github.sbcloudrace.sbtranslator.jaxb.http.*;
+import io.github.sbcloudrace.sbtranslator.sbopenfireapi.SbOpenfireServiceProxy;
 import io.github.sbcloudrace.sbtranslator.sbpersona.SbPersona;
 import io.github.sbcloudrace.sbtranslator.sbpersona.SbPersonaServiceProxy;
+import io.github.sbcloudrace.sbtranslator.sbsession.SbSessionServiceProxy;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.MediaType;
@@ -18,6 +20,8 @@ import java.util.List;
 public class DriverPersona {
 
     private final SbPersonaServiceProxy sbPersonaServiceProxy;
+
+    private final SbOpenfireServiceProxy sbOpenfireServiceProxy;
 
     @RequestMapping(value = "/GetExpLevelPointsMap", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
@@ -131,16 +135,19 @@ public class DriverPersona {
     //POST /soapbox/Engine.svc/DriverPersona/CreatePersona?userId=3&name=JOE&iconIndex=0&clan=1&clanIcon=clanIcon HTTP/1.1\r\n
     @RequestMapping(value = "/CreatePersona", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
-    public ProfileData createPersona(@RequestHeader("userId") Long userId,
+    public ProfileData createPersona(@RequestHeader("securityToken") String securityToken,
+                                     @RequestHeader("userId") Long userId,
                                      @RequestParam("name") String name,
                                      @RequestParam("iconIndex") Integer iconIndex) {
         SbPersona sbPersona = new SbPersona();
         sbPersona.setName(name);
         sbPersona.setIconIndex(iconIndex);
         sbPersona.setUserId(userId);
+        sbPersona.setLevel(1);
         SbPersona persona = sbPersonaServiceProxy.createPersona(sbPersona);
         ProfileData profileData = new ProfileData();
         BeanUtils.copyProperties(persona, profileData);
+        sbOpenfireServiceProxy.createAllPersonasXmpp(userId, securityToken);
         return profileData;
     }
 
