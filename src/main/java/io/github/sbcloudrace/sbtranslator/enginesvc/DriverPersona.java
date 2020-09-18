@@ -128,7 +128,8 @@ public class DriverPersona {
 
     @RequestMapping(value = "/DeletePersona", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
-    public String deletePersona() {
+    public String deletePersona(@RequestParam("personaId") Long personaId) {
+        sbPersonaServiceProxy.deletePersonaById(personaId);
         return "<long>0</long>";
     }
 

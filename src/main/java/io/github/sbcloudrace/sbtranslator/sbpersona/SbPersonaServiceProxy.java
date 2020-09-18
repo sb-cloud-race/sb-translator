@@ -20,4 +20,8 @@ public interface SbPersonaServiceProxy {
 
     @RequestMapping(value = "/sbpersonas", method = RequestMethod.POST)
     SbPersona createPersona(@RequestBody SbPersona sbPersona);
+
+    @RequestMapping(value = "/sbpersonas/{personaId}", method = RequestMethod.DELETE)
+    void deletePersonaById(@PathVariable Long personaId);
+
 }
