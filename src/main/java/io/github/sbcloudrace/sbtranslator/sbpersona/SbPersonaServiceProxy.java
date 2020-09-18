@@ -10,5 +10,5 @@ public interface SbPersonaServiceProxy {
 
     //http://localhost:8501/sb-persona/sbpersonas/100
     @RequestMapping(value = "/sbpersonas/{personaId}", method = RequestMethod.GET)
-    SbPersona getPersonaById(@PathVariable String personaId);
+    SbPersona getPersonaById(@PathVariable Long personaId);
 }

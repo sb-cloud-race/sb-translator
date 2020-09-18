@@ -1,6 +1,9 @@
 package io.github.sbcloudrace.sbtranslator.enginesvc;
 
 import io.github.sbcloudrace.sbtranslator.jaxb.http.*;
+import io.github.sbcloudrace.sbtranslator.sbpersona.SbPersona;
+import io.github.sbcloudrace.sbtranslator.sbpersona.SbPersonaServiceProxy;
+import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +13,10 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/DriverPersona")
+@AllArgsConstructor
 public class DriverPersona {
+
+    private final SbPersonaServiceProxy sbPersonaServiceProxy;
 
     @RequestMapping(value = "/GetExpLevelPointsMap", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
@@ -96,8 +102,9 @@ public class DriverPersona {
             @RequestHeader("securityToken") String securityToken,
             @RequestParam("personaId") Long personaId) {
         // TODO get data from microservice sb-persona by personaId to fill ProfileData object
+        SbPersona sbPersona = sbPersonaServiceProxy.getPersonaById(personaId);
         ProfileData profileData = new ProfileData();
-        profileData.setName("SPRING");
+        profileData.setName("SPRING");//sbPersona.getName();
         profileData.setCash(0);
         profileData.setIconIndex(0);
         profileData.setPersonaId(100L);
