@@ -14,7 +14,7 @@ public interface SbPersonaServiceProxy {
     @RequestMapping(value = "/sbpersonas/{personaId}", method = RequestMethod.GET)
     SbPersona getPersonaById(@PathVariable Long personaId);
 
-    @RequestMapping(value = "/personaByUser/{personaId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/personaByUser/{userId}", method = RequestMethod.GET)
     List<SbPersona> getPersonaByUserId(@PathVariable Long userId);
 
 }
