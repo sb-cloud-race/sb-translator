@@ -4,6 +4,7 @@ import io.github.sbcloudrace.sbtranslator.jaxb.http.*;
 import io.github.sbcloudrace.sbtranslator.sbpersona.SbPersona;
 import io.github.sbcloudrace.sbtranslator.sbpersona.SbPersonaServiceProxy;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -104,18 +105,19 @@ public class DriverPersona {
         // TODO get data from microservice sb-persona by personaId to fill ProfileData object
         SbPersona sbPersona = sbPersonaServiceProxy.getPersonaById(personaId);
         ProfileData profileData = new ProfileData();
-        profileData.setName("SPRING");//sbPersona.getName();
-        profileData.setCash(0);
-        profileData.setIconIndex(0);
-        profileData.setPersonaId(100L);
-        profileData.setLevel(3);
-        profileData.setBadges(new ArrayOfBadgePacket());
-        profileData.setMotto("THERE'S NO END, UNTIL WE SAY SO!");
-        profileData.setPercentToLevel(0);
-        profileData.setRating(0);
-        profileData.setRep(0);
-        profileData.setRepAtCurrentLevel(0);
-        profileData.setScore(0);
+        BeanUtils.copyProperties(sbPersona,profileData);
+//        profileData.setName("SPRING");
+//        profileData.setCash(0);
+//        profileData.setIconIndex(0);
+//        profileData.setPersonaId(100L);
+//        profileData.setLevel(3);
+//        profileData.setBadges(new ArrayOfBadgePacket());
+//        profileData.setMotto("THERE'S NO END, UNTIL WE SAY SO!");
+//        profileData.setPercentToLevel(0);
+//        profileData.setRating(0);
+//        profileData.setRep(0);
+//        profileData.setRepAtCurrentLevel(0);
+//        profileData.setScore(0);
         return profileData;
     }
 
