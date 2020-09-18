@@ -10,6 +10,7 @@ import io.github.sbcloudrace.sbtranslator.sbpersona.SbPersona;
 import io.github.sbcloudrace.sbtranslator.sbpersona.SbPersonaServiceProxy;
 import io.github.sbcloudrace.sbtranslator.sbsession.SbSessionServiceProxy;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -38,17 +39,14 @@ public class User {
         userInfo.setDefaultPersonaIdx(0);
 
         List<SbPersona> listSbPersona = sbPersonaServiceProxy.getPersonaByUserId(userId);
+        listSbPersona.stream().forEach(sbPersona -> {
+            ArrayOfProfileData arrayOfProfileData = new ArrayOfProfileData();
+            ProfileData profileData = new ProfileData();
+            BeanUtils.copyProperties(sbPersona,profileData);
+            arrayOfProfileData.getProfileData().add(profileData);
+            userInfo.setPersonas(arrayOfProfileData);
+        });
 
-        ArrayOfProfileData arrayOfProfileData = new ArrayOfProfileData();
-        // TODO get data from microservice sb-persona by userId to fill all ProfileData object
-        ProfileData profileData = new ProfileData();
-        profileData.setName("SPRING");
-        profileData.setCash(733550D);
-        profileData.setIconIndex(26);
-        profileData.setPersonaId(100);
-        profileData.setLevel(3);
-        arrayOfProfileData.getProfileData().add(profileData);
-        userInfo.setPersonas(arrayOfProfileData);
 
         io.github.sbcloudrace.sbtranslator.jaxb.http.User user = new io.github.sbcloudrace.sbtranslator.jaxb.http.User();
         user.setUserId(userId);
