@@ -22,7 +22,7 @@ import java.util.List;
 @AllArgsConstructor
 public class User {
 
-    private final SbSessionServiceProxy userSessionServiceProxy;
+    private final SbSessionServiceProxy sbSessionServiceProxy;
 
     private final SbOpenfireServiceProxy sbOpenfireServiceProxy;
 
@@ -33,16 +33,15 @@ public class User {
     public UserInfo getPermanentSession(
             @RequestHeader("userId") Long userId,
             @RequestHeader("securityToken") String securityToken,
-            @RequestBody GetPermanentSessionData permanentSessionData
-    ) {
+            @RequestBody GetPermanentSessionData permanentSessionData) {
         UserInfo userInfo = new UserInfo();
         userInfo.setDefaultPersonaIdx(0);
 
         List<SbPersona> listSbPersona = sbPersonaServiceProxy.getPersonaByUserId(userId);
         ArrayOfProfileData arrayOfProfileData = new ArrayOfProfileData();
-        listSbPersona.stream().forEach(sbPersona -> {
+        listSbPersona.forEach(sbPersona -> {
             ProfileData profileData = new ProfileData();
-            BeanUtils.copyProperties(sbPersona,profileData);
+            BeanUtils.copyProperties(sbPersona, profileData);
             arrayOfProfileData.getProfileData().add(profileData);
         });
         userInfo.setPersonas(arrayOfProfileData);
@@ -51,7 +50,7 @@ public class User {
         io.github.sbcloudrace.sbtranslator.jaxb.http.User user = new io.github.sbcloudrace.sbtranslator.jaxb.http.User();
         user.setUserId(userId);
         userInfo.setUser(user);
-        String permanentToken = userSessionServiceProxy.createPermanentSession(userId, securityToken);
+        String permanentToken = sbSessionServiceProxy.createPermanentSession(userId, securityToken);
         if (permanentToken == null || permanentToken.isEmpty()) {
             throw new UnauthorizedException();
         }
@@ -67,7 +66,9 @@ public class User {
 
     @RequestMapping(value = "/SecureLoginPersona", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
-    public void secureLoginPersona() {
+    public void secureLoginPersona(@RequestHeader("securityToken") String securityToken,
+                                   @RequestParam("personaId") Long personaId) {
+        sbSessionServiceProxy.setActivePersona(securityToken, personaId);
     }
 
     @RequestMapping(value = "/SecureLogoutPersona", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
