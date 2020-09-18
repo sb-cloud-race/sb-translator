@@ -168,4 +168,10 @@ public class Personas {
         }
         return commerceResultTrans;
     }
+
+    @RequestMapping(value = "/{personaId}/defaultcar", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public OwnedCarTrans getDefaultCar(@PathVariable Long personaId) {
+        return mockOwnedCar();
+    }
 }
