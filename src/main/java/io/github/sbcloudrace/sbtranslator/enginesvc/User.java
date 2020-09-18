@@ -6,11 +6,15 @@ import io.github.sbcloudrace.sbtranslator.jaxb.http.ProfileData;
 import io.github.sbcloudrace.sbtranslator.jaxb.http.UserInfo;
 import io.github.sbcloudrace.sbtranslator.jaxb.util.UnauthorizedException;
 import io.github.sbcloudrace.sbtranslator.sbopenfireapi.SbOpenfireServiceProxy;
+import io.github.sbcloudrace.sbtranslator.sbpersona.SbPersona;
+import io.github.sbcloudrace.sbtranslator.sbpersona.SbPersonaServiceProxy;
 import io.github.sbcloudrace.sbtranslator.sbsession.SbSessionServiceProxy;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/User")
@@ -21,6 +25,8 @@ public class User {
 
     private final SbOpenfireServiceProxy sbOpenfireServiceProxy;
 
+    private final SbPersonaServiceProxy sbPersonaServiceProxy;
+
     @RequestMapping(value = "/GetPermanentSession", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
     public UserInfo getPermanentSession(
@@ -30,6 +36,8 @@ public class User {
     ) {
         UserInfo userInfo = new UserInfo();
         userInfo.setDefaultPersonaIdx(0);
+
+        List<SbPersona> listSbPersona = sbPersonaServiceProxy.getPersonaByUserId(userId);
 
         ArrayOfProfileData arrayOfProfileData = new ArrayOfProfileData();
         // TODO get data from microservice sb-persona by userId to fill all ProfileData object
