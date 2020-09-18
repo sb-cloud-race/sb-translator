@@ -102,22 +102,9 @@ public class DriverPersona {
             @RequestHeader("userId") Long userId,
             @RequestHeader("securityToken") String securityToken,
             @RequestParam("personaId") Long personaId) {
-        // TODO get data from microservice sb-persona by personaId to fill ProfileData object
         SbPersona sbPersona = sbPersonaServiceProxy.getPersonaById(personaId);
         ProfileData profileData = new ProfileData();
         BeanUtils.copyProperties(sbPersona,profileData);
-//        profileData.setName("SPRING");
-//        profileData.setCash(0);
-//        profileData.setIconIndex(0);
-//        profileData.setPersonaId(100L);
-//        profileData.setLevel(3);
-//        profileData.setBadges(new ArrayOfBadgePacket());
-//        profileData.setMotto("THERE'S NO END, UNTIL WE SAY SO!");
-//        profileData.setPercentToLevel(0);
-//        profileData.setRating(0);
-//        profileData.setRep(0);
-//        profileData.setRepAtCurrentLevel(0);
-//        profileData.setScore(0);
         return profileData;
     }
 
