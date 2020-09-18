@@ -104,7 +104,7 @@ public class DriverPersona {
             @RequestParam("personaId") Long personaId) {
         SbPersona sbPersona = sbPersonaServiceProxy.getPersonaById(personaId);
         ProfileData profileData = new ProfileData();
-        BeanUtils.copyProperties(sbPersona,profileData);
+        BeanUtils.copyProperties(sbPersona, profileData);
         return profileData;
     }
 
@@ -118,7 +118,7 @@ public class DriverPersona {
     @ResponseBody
     public ArrayOfString reserveName() {
         ArrayOfString arrayOfString = new ArrayOfString();
-        arrayOfString.getString().add("NONE");
+//        arrayOfString.getString().add("NONE");
         return arrayOfString;
     }
 
@@ -126,6 +126,22 @@ public class DriverPersona {
     @ResponseBody
     public String deletePersona() {
         return "<long>0</long>";
+    }
+
+    //POST /soapbox/Engine.svc/DriverPersona/CreatePersona?userId=3&name=JOE&iconIndex=0&clan=1&clanIcon=clanIcon HTTP/1.1\r\n
+    @RequestMapping(value = "/CreatePersona", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public ProfileData createPersona(@RequestHeader("userId") Long userId,
+                                     @RequestParam("name") String name,
+                                     @RequestParam("iconIndex") Integer iconIndex) {
+        SbPersona sbPersona = new SbPersona();
+        sbPersona.setName(name);
+        sbPersona.setIconIndex(iconIndex);
+        sbPersona.setUserId(userId);
+        SbPersona persona = sbPersonaServiceProxy.createPersona(sbPersona);
+        ProfileData profileData = new ProfileData();
+        BeanUtils.copyProperties(persona, profileData);
+        return profileData;
     }
 
 }
