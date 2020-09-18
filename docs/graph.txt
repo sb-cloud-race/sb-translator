@@ -1,0 +1,34 @@
+digraph architecture {
+  rankdir=LR;
+
+  game_cli [shape=tripleoctagon];
+  _sb_translator [shape=tripleoctagon,color=blue];
+  _openfire_server [shape=tripleoctagon,color=blue];
+  _sb_xmpp_cli [shape=tripleoctagon,color=blue];
+
+  radisdb [color=red,shape=cylinder];
+  openfire_server [color=blue, shape=box3d];
+  openfire_db [color=red,shape=cylinder];
+  sb_translator [color=blue];
+  sb_xmpp_cli [color=blue];
+  sb_persona_db [color=red,shape=cylinder];
+
+  game_cli -> {_sb_translator , _openfire_server};
+  _sb_translator -> {_openfire_server, _sb_xmpp_cli};
+  _sb_xmpp_cli -> _openfire_server;
+
+  sb_translator -> {sb_session, sb_xmpp_cli,  sb_openfire_api, sb_persona};
+  sb_session -> {radisdb} [color=red,arrowhead=none];
+  sb_openfire_api -> {openfire_server} [color=blue,arrowhead=none];
+  sb_openfire_api -> {sb_persona};
+  sb_xmpp_cli -> {openfire_server} [color=blue,arrowhead=none];
+  openfire_server -> openfire_db;
+  sb_xmpp_cli -> {sb_session};
+  sb_persona -> sb_persona_db [color=red,arrowhead=none];
+  
+  sb_auth -> sb_session ,sb_user;
+  sb_user -> {sb_user_db [color=red,shape=cylinder]} [color=red,arrowhead=none];
+
+  {rank=same; sb_auth , sb_translator}
+  
+}
