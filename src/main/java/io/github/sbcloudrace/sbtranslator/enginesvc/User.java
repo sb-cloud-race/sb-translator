@@ -39,13 +39,13 @@ public class User {
         userInfo.setDefaultPersonaIdx(0);
 
         List<SbPersona> listSbPersona = sbPersonaServiceProxy.getPersonaByUserId(userId);
+        ArrayOfProfileData arrayOfProfileData = new ArrayOfProfileData();
         listSbPersona.stream().forEach(sbPersona -> {
-            ArrayOfProfileData arrayOfProfileData = new ArrayOfProfileData();
             ProfileData profileData = new ProfileData();
             BeanUtils.copyProperties(sbPersona,profileData);
             arrayOfProfileData.getProfileData().add(profileData);
-            userInfo.setPersonas(arrayOfProfileData);
         });
+        userInfo.setPersonas(arrayOfProfileData);
 
 
         io.github.sbcloudrace.sbtranslator.jaxb.http.User user = new io.github.sbcloudrace.sbtranslator.jaxb.http.User();
