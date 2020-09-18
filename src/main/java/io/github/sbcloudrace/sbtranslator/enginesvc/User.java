@@ -32,7 +32,7 @@ public class User {
         userInfo.setDefaultPersonaIdx(0);
 
         ArrayOfProfileData arrayOfProfileData = new ArrayOfProfileData();
-        // TODO get data from microservice sb-persona to fill ProfileData object
+        // TODO get data from microservice sb-persona by userId to fill all ProfileData object
         ProfileData profileData = new ProfileData();
         profileData.setName("SPRING");
         profileData.setCash(733550D);

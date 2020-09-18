@@ -3,10 +3,7 @@ package io.github.sbcloudrace.sbtranslator.enginesvc;
 import io.github.sbcloudrace.sbtranslator.jaxb.http.*;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.InputStream;
 import java.util.List;
@@ -96,8 +93,9 @@ public class DriverPersona {
     @ResponseBody
     public ProfileData getPersonaInfo(
             @RequestHeader("userId") Long userId,
-            @RequestHeader("securityToken") String securityToken) {
-        // TODO get data from microservice sb-persona to fill ProfileData object
+            @RequestHeader("securityToken") String securityToken,
+            @RequestParam("personaId") Long personaId) {
+        // TODO get data from microservice sb-persona by personaId to fill ProfileData object
         ProfileData profileData = new ProfileData();
         profileData.setName("SPRING");
         profileData.setCash(0);
