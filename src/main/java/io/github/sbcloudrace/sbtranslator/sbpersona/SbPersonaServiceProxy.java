@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-@FeignClient(name = "sb-persona", url = "SB-PERSONA", path = "/sb-persona")
+@FeignClient(name = "SB-PERSONA", path = "/sb-persona")
 public interface SbPersonaServiceProxy {
 
     //http://localhost:8501/sb-persona/sbpersonas/100
