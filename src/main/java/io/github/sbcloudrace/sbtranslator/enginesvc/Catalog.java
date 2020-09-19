@@ -21,7 +21,41 @@ public class Catalog {
         if ("STORE_POWERUPS".equals(categoryName)) {
             fillPowerupStore(arrayOfProductTrans);
         }
+        if ("Starting_Cars".equals(categoryName)) {
+            fillStartingCars(arrayOfProductTrans);
+        }
         return arrayOfProductTrans;
+    }
+
+    private void fillStartingCars(ArrayOfProductTrans arrayOfProductTrans) {
+        // <ProductTrans>
+        //        <Currency>CASH</Currency>
+        //        <DurationMinute>0</DurationMinute>
+        //        <Hash>1342182250</Hash>
+        //        <Icon>Black_64x64</Icon>
+        //        <Level>1</Level>
+        //        <Price>150000.0000</Price>
+        //        <Priority>0</Priority>
+        //        <ProductId>NFSW-NA:A37154B0</ProductId>
+        //        <ProductTitle>BLACK</ProductTitle>
+        //        <ProductType>PRESETCAR</ProductType>
+        //        <UseCount>1</UseCount>
+        //    </ProductTrans>
+        ProductTrans productTrans = new ProductTrans();
+        productTrans.setCurrency("CASH");
+        productTrans.setDurationMinute(0);
+//        mitsubishi eclipse gt
+//        productTrans.setHash(1342182250);
+//        nissan 240sx (s13)
+        productTrans.setHash(1133182666);
+        productTrans.setIcon("Black_64x64");
+        productTrans.setPrice(0D);
+        productTrans.setPriority(0);
+        productTrans.setProductId("SBRW:001");
+        productTrans.setProductTitle("BLACK");
+        productTrans.setProductType("PRESETCAR");
+        productTrans.setUseCount(1);
+        arrayOfProductTrans.getProductTrans().add(productTrans);
     }
 
     private void fillPowerupStore(ArrayOfProductTrans arrayOfProductTrans) {

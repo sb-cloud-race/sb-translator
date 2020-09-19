@@ -46,43 +46,26 @@ public class Personas {
     }
 
     private OwnedCarTrans mockOwnedCar() {
-//    <CustomCar>
-//        <BaseCar>2020296126</BaseCar>
-//        <CarClassHash>-2142411446</CarClassHash>
-//        <Id>6473001</Id>
-//        <IsPreset>true</IsPreset>
-//        <Level>0</Level>
-//        <Name>rtrx69</Name>
-//        <Paints/>
-//        <PerformanceParts/>
-//        <PhysicsProfileHash>-2114067581</PhysicsProfileHash>
-//        <Rating>763</Rating>
-//        <ResalePrice>550000</ResalePrice>
-//        <RideHeightDrop>0</RideHeightDrop>
-//        <SkillModParts/>
-//        <SkillModSlotCount>5</SkillModSlotCount>
-//        <Version>0</Version>
-//        <Vinyls/>
-//        <VisualParts/>
-//    </CustomCar>
-//    <Durability>100</Durability>
-//    <ExpirationDate i:nil="true"/>
-//    <Heat>1</Heat>
-//    <Id>3</Id>
-//    <OwnershipType>PresetCar</OwnershipType>
         OwnedCarTrans ownedCarTrans = new OwnedCarTrans();
         CustomCarTrans customCarTrans = new CustomCarTrans();
-        customCarTrans.setBaseCar(2020296126);
-        customCarTrans.setCarClassHash(-2142411446);
-        customCarTrans.setId(6473001);
+        customCarTrans.setBaseCar(22084480);
+        customCarTrans.setCarClassHash(872416321);
+        customCarTrans.setId(243);
         customCarTrans.setIsPreset(true);
         customCarTrans.setLevel(0);
-        customCarTrans.setName("rtrx69");
-        customCarTrans.setPaints(new ArrayOfCustomPaintTrans());
+        customCarTrans.setName("240sx");
+        ArrayOfCustomPaintTrans arrayOfCustomPaintTrans = new ArrayOfCustomPaintTrans();
+        mockCustomPaintTrans(arrayOfCustomPaintTrans,0);
+        mockCustomPaintTrans(arrayOfCustomPaintTrans,3);
+        mockCustomPaintTrans(arrayOfCustomPaintTrans,4);
+        mockCustomPaintTrans(arrayOfCustomPaintTrans,5);
+        mockCustomPaintTrans(arrayOfCustomPaintTrans,6);
+        mockCustomPaintTrans(arrayOfCustomPaintTrans,7);
+        customCarTrans.setPaints(arrayOfCustomPaintTrans);
         customCarTrans.setPerformanceParts(new ArrayOfPerformancePartTrans());
-        customCarTrans.setPhysicsProfileHash(-2114067581);
-        customCarTrans.setRating(763);
-        customCarTrans.setResalePrice(550000);
+        customCarTrans.setPhysicsProfileHash(-1469109252);
+        customCarTrans.setRating(224);
+        customCarTrans.setResalePrice(0);
         customCarTrans.setRideHeightDrop(0);
         customCarTrans.setSkillModParts(new ArrayOfSkillModPartTrans());
         customCarTrans.setSkillModSlotCount(5);
@@ -93,8 +76,19 @@ public class Personas {
         ownedCarTrans.setDurability(100);
 //        ownedCarTrans.setExpirationDate(null);
         ownedCarTrans.setHeat(1F);
-        ownedCarTrans.setId(1L);
+        ownedCarTrans.setId(72902239L);
+        ownedCarTrans.setOwnershipType("PresetCar");
         return ownedCarTrans;
+    }
+
+    private void mockCustomPaintTrans(ArrayOfCustomPaintTrans arrayOfCustomPaintTrans, int slot) {
+        CustomPaintTrans customPaintTrans = new CustomPaintTrans();
+        customPaintTrans.setGroup(47885063);
+        customPaintTrans.setHue(496032328);
+        customPaintTrans.setSat(0);
+        customPaintTrans.setSlot(slot);
+        customPaintTrans.setVar(0);
+        arrayOfCustomPaintTrans.getCustomPaintTrans().add(customPaintTrans);
     }
 
     @RequestMapping(value = "/inventory/objects", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
@@ -134,17 +128,17 @@ public class Personas {
 
     @RequestMapping(value = "/{personaId}/defaultcar/{carId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
-    public void putDefaultCar(@PathVariable String personaId, @PathVariable String carId){
+    public void putDefaultCar(@PathVariable String personaId, @PathVariable String carId) {
     }
 
     @RequestMapping(value = "/{personaId}/cars", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
-    public void postCars(@PathVariable String personaId){
+    public void postCars(@PathVariable String personaId) {
     }
 
     @RequestMapping(value = "/{personaId}/baskets", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
-    public CommerceResultTrans baskets(@PathVariable String personaId, @RequestBody BasketTrans basketTrans){
+    public CommerceResultTrans baskets(@PathVariable String personaId, @RequestBody BasketTrans basketTrans) {
         CommerceResultTrans commerceResultTrans = new CommerceResultTrans();
 
         ArrayOfInventoryItemTrans arrayOfInventoryItemTrans = new ArrayOfInventoryItemTrans();
@@ -165,7 +159,17 @@ public class Personas {
         String productId = basketTrans.getItems().getBasketItemTrans().get(0).getProductId();
         if ("SRV-GARAGESLOT".equals(productId) || "-1".equals(productId) || productId.contains("SRV-POWERUP") || productId.equals("SRV-THREVIVE")) {
             commerceResultTrans.setStatus(CommerceResultStatus.FAIL_INSUFFICIENT_FUNDS);
+        } else {
+            ArrayOfOwnedCarTrans arrayOfOwnedCarTrans = new ArrayOfOwnedCarTrans();
+            arrayOfOwnedCarTrans.getOwnedCarTrans().add(mockOwnedCar());
+            commerceResultTrans.setPurchasedCars(arrayOfOwnedCarTrans);
         }
         return commerceResultTrans;
+    }
+
+    @RequestMapping(value = "/{personaId}/defaultcar", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public OwnedCarTrans getDefaultCar(@PathVariable Long personaId) {
+        return mockOwnedCar();
     }
 }

@@ -2,6 +2,7 @@ package io.github.sbcloudrace.sbtranslator.sbpersona;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -16,5 +17,11 @@ public interface SbPersonaServiceProxy {
 
     @RequestMapping(value = "/personaByUser/{userId}", method = RequestMethod.GET)
     List<SbPersona> getPersonaByUserId(@PathVariable Long userId);
+
+    @RequestMapping(value = "/sbpersonas", method = RequestMethod.POST)
+    SbPersona createPersona(@RequestBody SbPersona sbPersona);
+
+    @RequestMapping(value = "/sbpersonas/{personaId}", method = RequestMethod.DELETE)
+    void deletePersonaById(@PathVariable Long personaId);
 
 }

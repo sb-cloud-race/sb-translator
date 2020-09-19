@@ -1,8 +1,10 @@
 package io.github.sbcloudrace.sbtranslator.enginesvc;
 
 import io.github.sbcloudrace.sbtranslator.jaxb.http.*;
+import io.github.sbcloudrace.sbtranslator.sbopenfireapi.SbOpenfireServiceProxy;
 import io.github.sbcloudrace.sbtranslator.sbpersona.SbPersona;
 import io.github.sbcloudrace.sbtranslator.sbpersona.SbPersonaServiceProxy;
+import io.github.sbcloudrace.sbtranslator.sbsession.SbSessionServiceProxy;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.MediaType;
@@ -18,6 +20,8 @@ import java.util.List;
 public class DriverPersona {
 
     private final SbPersonaServiceProxy sbPersonaServiceProxy;
+
+    private final SbOpenfireServiceProxy sbOpenfireServiceProxy;
 
     @RequestMapping(value = "/GetExpLevelPointsMap", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
@@ -104,7 +108,7 @@ public class DriverPersona {
             @RequestParam("personaId") Long personaId) {
         SbPersona sbPersona = sbPersonaServiceProxy.getPersonaById(personaId);
         ProfileData profileData = new ProfileData();
-        BeanUtils.copyProperties(sbPersona,profileData);
+        BeanUtils.copyProperties(sbPersona, profileData);
         return profileData;
     }
 
@@ -118,14 +122,34 @@ public class DriverPersona {
     @ResponseBody
     public ArrayOfString reserveName() {
         ArrayOfString arrayOfString = new ArrayOfString();
-        arrayOfString.getString().add("NONE");
+//        arrayOfString.getString().add("NONE");
         return arrayOfString;
     }
 
     @RequestMapping(value = "/DeletePersona", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
-    public String deletePersona() {
+    public String deletePersona(@RequestParam("personaId") Long personaId) {
+        sbPersonaServiceProxy.deletePersonaById(personaId);
         return "<long>0</long>";
+    }
+
+    //POST /soapbox/Engine.svc/DriverPersona/CreatePersona?userId=3&name=JOE&iconIndex=0&clan=1&clanIcon=clanIcon HTTP/1.1\r\n
+    @RequestMapping(value = "/CreatePersona", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public ProfileData createPersona(@RequestHeader("securityToken") String securityToken,
+                                     @RequestHeader("userId") Long userId,
+                                     @RequestParam("name") String name,
+                                     @RequestParam("iconIndex") Integer iconIndex) {
+        SbPersona sbPersona = new SbPersona();
+        sbPersona.setName(name);
+        sbPersona.setIconIndex(iconIndex);
+        sbPersona.setUserId(userId);
+        sbPersona.setLevel(60);
+        SbPersona persona = sbPersonaServiceProxy.createPersona(sbPersona);
+        ProfileData profileData = new ProfileData();
+        BeanUtils.copyProperties(persona, profileData);
+        sbOpenfireServiceProxy.createAllPersonasXmpp(userId, securityToken);
+        return profileData;
     }
 
 }
