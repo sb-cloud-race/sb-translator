@@ -71,7 +71,7 @@ public class User {
     @ResponseBody
     public void secureLoginPersona(@RequestHeader("securityToken") String securityToken,
                                    @RequestParam("personaId") Long personaId) {
-        sbSessionServiceProxy.setActivePersona(securityToken, personaId);
+        sbSessionServiceProxy.putActivePersona(securityToken, personaId);
     }
 
     @RequestMapping(value = "/SecureLogoutPersona", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)

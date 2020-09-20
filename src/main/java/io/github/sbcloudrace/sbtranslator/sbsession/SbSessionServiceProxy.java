@@ -13,8 +13,8 @@ public interface SbSessionServiceProxy {
     String keepAlive(@PathVariable("securityToken") String token);
 
     @RequestMapping(value = "/tokensession/active-persona-id/{securityToken}/{personaId}", method = RequestMethod.PUT)
-    void setActivePersona(@PathVariable("securityToken") String securityToken, @PathVariable("personaId") Long personaId);
+    void putActivePersona(@PathVariable("securityToken") String securityToken, @PathVariable("personaId") Long personaId);
 
     @RequestMapping(value = "/tokensession/active-persona-id/{securityToken}", method = RequestMethod.GET)
-    Long activePersonaId(@PathVariable("securityToken") String securityToken);
+    Long getActivePersonaId(@PathVariable("securityToken") String securityToken);
 }
