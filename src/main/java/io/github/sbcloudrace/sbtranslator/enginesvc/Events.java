@@ -30,6 +30,10 @@ public class Events {
         EventDefinition eventDefinition2 = new EventDefinition();
         eventDefinition2.setEventId(504);
         eventsPacket.getEvents().getEventDefinition().add(eventDefinition2);
+
+        EventDefinition eventDefinition3 = new EventDefinition();
+        eventDefinition3.setEventId(385);
+        eventsPacket.getEvents().getEventDefinition().add(eventDefinition3);
         return eventsPacket;
     }
 

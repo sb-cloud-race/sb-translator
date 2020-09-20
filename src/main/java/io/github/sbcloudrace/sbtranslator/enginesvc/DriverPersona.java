@@ -146,7 +146,7 @@ public class DriverPersona {
         sbPersona.setName(name);
         sbPersona.setIconIndex(iconIndex);
         sbPersona.setUserId(userId);
-        sbPersona.setLevel(60);
+        sbPersona.setLevel(3);
         SbPersona persona = sbPersonaServiceProxy.createPersona(sbPersona);
         ProfileData profileData = new ProfileData();
         BeanUtils.copyProperties(persona, profileData);

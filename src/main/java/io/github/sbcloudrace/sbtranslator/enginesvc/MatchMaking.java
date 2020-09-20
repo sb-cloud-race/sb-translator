@@ -29,4 +29,13 @@ public class MatchMaking {
         return sessionInfo;
     }
 
+    @RequestMapping(value = "/makeprivatelobby/{eventId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public void makeprivatelobby(@PathVariable("eventId") Integer eventId) {
+    }
+
+    @RequestMapping(value = "/joinqueueevent/{eventId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public void joinqueueevent(@PathVariable("eventId") Integer eventId) {
+    }
 }
