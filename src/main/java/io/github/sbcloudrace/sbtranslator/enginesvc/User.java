@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -37,12 +38,14 @@ public class User {
         UserInfo userInfo = new UserInfo();
         userInfo.setDefaultPersonaIdx(0);
 
+        List<Long> personasIds = new ArrayList<>();
         List<SbPersona> listSbPersona = sbPersonaServiceProxy.getPersonaByUserId(userId);
         ArrayOfProfileData arrayOfProfileData = new ArrayOfProfileData();
         listSbPersona.forEach(sbPersona -> {
             ProfileData profileData = new ProfileData();
             BeanUtils.copyProperties(sbPersona, profileData);
             arrayOfProfileData.getProfileData().add(profileData);
+            personasIds.add(sbPersona.getPersonaId());
         });
         userInfo.setPersonas(arrayOfProfileData);
 
@@ -55,7 +58,7 @@ public class User {
             throw new UnauthorizedException();
         }
         userInfo.getUser().setSecurityToken(permanentToken);
-        sbOpenfireServiceProxy.createAllPersonasXmpp(userId, permanentToken);
+        sbOpenfireServiceProxy.createAllPersonasXmpp(personasIds, permanentToken.substring(0, 16));
         return userInfo;
     }
 

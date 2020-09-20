@@ -1,17 +1,19 @@
 package io.github.sbcloudrace.sbtranslator.enginesvc;
 
-import io.github.sbcloudrace.sbtranslator.jaxb.http.*;
+import io.github.sbcloudrace.sbtranslator.jaxb.http.ArrayOfInt;
+import io.github.sbcloudrace.sbtranslator.jaxb.http.ArrayOfString;
+import io.github.sbcloudrace.sbtranslator.jaxb.http.PersonaPresence;
+import io.github.sbcloudrace.sbtranslator.jaxb.http.ProfileData;
 import io.github.sbcloudrace.sbtranslator.sbopenfireapi.SbOpenfireServiceProxy;
 import io.github.sbcloudrace.sbtranslator.sbpersona.SbPersona;
 import io.github.sbcloudrace.sbtranslator.sbpersona.SbPersonaServiceProxy;
-import io.github.sbcloudrace.sbtranslator.sbsession.SbSessionServiceProxy;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -148,7 +150,9 @@ public class DriverPersona {
         SbPersona persona = sbPersonaServiceProxy.createPersona(sbPersona);
         ProfileData profileData = new ProfileData();
         BeanUtils.copyProperties(persona, profileData);
-        sbOpenfireServiceProxy.createAllPersonasXmpp(userId, securityToken);
+        List<Long> personaIds = new ArrayList<>();
+        personaIds.add(persona.getPersonaId());
+        sbOpenfireServiceProxy.createAllPersonasXmpp(personaIds, securityToken.substring(0, 16));
         return profileData;
     }
 
