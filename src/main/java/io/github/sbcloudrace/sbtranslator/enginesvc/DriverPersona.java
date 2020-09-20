@@ -108,7 +108,7 @@ public class DriverPersona {
             @RequestHeader("userId") Long userId,
             @RequestHeader("securityToken") String securityToken,
             @RequestParam("personaId") Long personaId) {
-        SbPersona sbPersona = sbPersonaServiceProxy.getPersonaById(personaId);
+        SbPersona sbPersona = sbPersonaServiceProxy.getPersona(personaId);
         ProfileData profileData = new ProfileData();
         BeanUtils.copyProperties(sbPersona, profileData);
         return profileData;
@@ -131,7 +131,7 @@ public class DriverPersona {
     @RequestMapping(value = "/DeletePersona", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
     public String deletePersona(@RequestParam("personaId") Long personaId) {
-        sbPersonaServiceProxy.deletePersonaById(personaId);
+        sbPersonaServiceProxy.deletePersona(personaId);
         return "<long>0</long>";
     }
 

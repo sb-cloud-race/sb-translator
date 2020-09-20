@@ -39,7 +39,7 @@ public class User {
         userInfo.setDefaultPersonaIdx(0);
 
         List<Long> personasIds = new ArrayList<>();
-        List<SbPersona> listSbPersona = sbPersonaServiceProxy.getPersonaByUserId(userId);
+        List<SbPersona> listSbPersona = sbPersonaServiceProxy.getPersonasByUserId(userId);
         ArrayOfProfileData arrayOfProfileData = new ArrayOfProfileData();
         listSbPersona.forEach(sbPersona -> {
             ProfileData profileData = new ProfileData();
