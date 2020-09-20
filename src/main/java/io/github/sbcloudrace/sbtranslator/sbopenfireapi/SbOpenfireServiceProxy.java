@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "sb-openfire-api", url = "localhost:8101", path = "/sb-openfire-api")
+@FeignClient(name = "SB-OPENFIRE-API", path = "/sb-openfire-api")
 public interface SbOpenfireServiceProxy {
 
     @RequestMapping(value = "/users/{password}", method = RequestMethod.PUT)
