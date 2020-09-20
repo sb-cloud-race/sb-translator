@@ -20,9 +20,8 @@ digraph architecture {
   sb_translator -> {sb_session, sb_xmpp_cli,  sb_openfire_api, sb_persona};
   sb_session -> {radisdb} [color=red,arrowhead=none];
   sb_openfire_api -> {openfire_server} [color=blue,arrowhead=none];
-  sb_openfire_api -> {sb_persona};
   sb_xmpp_cli -> {openfire_server} [color=blue,arrowhead=none];
-  openfire_server -> openfire_db;
+  openfire_server -> openfire_db [color=red,arrowhead=none];
   sb_xmpp_cli -> {sb_session};
   sb_persona -> sb_persona_db [color=red,arrowhead=none];
   
