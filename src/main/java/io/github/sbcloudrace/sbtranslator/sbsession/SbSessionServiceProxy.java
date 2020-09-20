@@ -14,4 +14,7 @@ public interface SbSessionServiceProxy {
 
     @RequestMapping(value = "/tokensession/active-persona-id/{securityToken}/{personaId}", method = RequestMethod.PUT)
     void setActivePersona(@PathVariable("securityToken") String securityToken, @PathVariable("personaId") Long personaId);
+
+    @RequestMapping(value = "/tokensession/active-persona-id/{securityToken}", method = RequestMethod.GET)
+    Long activePersonaId(@PathVariable("securityToken") String securityToken);
 }
