@@ -1,9 +1,6 @@
 package io.github.sbcloudrace.sbtranslator.enginesvc;
 
-import io.github.sbcloudrace.sbtranslator.jaxb.http.ArrayOfEventDefinition;
-import io.github.sbcloudrace.sbtranslator.jaxb.http.EventDefinition;
-import io.github.sbcloudrace.sbtranslator.jaxb.http.EventsPacket;
-import io.github.sbcloudrace.sbtranslator.jaxb.http.TreasureHuntEventSession;
+import io.github.sbcloudrace.sbtranslator.jaxb.http.*;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,18 +20,49 @@ public class Events {
         EventsPacket eventsPacket = new EventsPacket();
         eventsPacket.setEvents(new ArrayOfEventDefinition());
 
-        EventDefinition eventDefinition = new EventDefinition();
-        eventDefinition.setEventId(43);
-        eventsPacket.getEvents().getEventDefinition().add(eventDefinition);
+//        EventDefinition eventDefinition = new EventDefinition();
+//        eventDefinition.setEventId(43);
+//        eventsPacket.getEvents().getEventDefinition().add(eventDefinition);
 
-        EventDefinition eventDefinition2 = new EventDefinition();
-        eventDefinition2.setEventId(504);
-        eventsPacket.getEvents().getEventDefinition().add(eventDefinition2);
+        eventsPacket.getEvents().getEventDefinition().add(getEventDefinitionWithId());
 
-        EventDefinition eventDefinition3 = new EventDefinition();
-        eventDefinition3.setEventId(385);
-        eventsPacket.getEvents().getEventDefinition().add(eventDefinition3);
+//        EventDefinition eventDefinition3 = new EventDefinition();
+//        eventDefinition3.setEventId(385);
+//        eventsPacket.getEvents().getEventDefinition().add(eventDefinition3);
         return eventsPacket;
+    }
+
+    private EventDefinition getEventDefinitionWithId() {
+        EventDefinition eventDefinition = new EventDefinition();
+        eventDefinition.setCarClassHash(607077938);
+        eventDefinition.setCoins(0);
+        Vector3 vector3 = new Vector3();
+        vector3.setX(0);
+        vector3.setY(0);
+        vector3.setZ(0);
+        eventDefinition.setEngagePoint(vector3);
+        eventDefinition.setEventId(504);
+        eventDefinition.setEventLocalization(953953223);
+        eventDefinition.setEventModeDescriptionLocalization(1204604434);
+        eventDefinition.setEventModeIcon("GameModeIcon_Drag");
+        eventDefinition.setEventModeId(19);
+        eventDefinition.setEventModeLocalization(-1152300457);
+        eventDefinition.setIsEnabled(true);
+        eventDefinition.setIsLocked(false);
+        eventDefinition.setLaps(0);
+        eventDefinition.setLength(0);
+        eventDefinition.setMaxClassRating(999);
+        eventDefinition.setMaxEntrants(4);
+        eventDefinition.setMaxLevel(60);
+        eventDefinition.setMinClassRating(0);
+        eventDefinition.setMinEntrants(2);
+        eventDefinition.setMinLevel(2);
+        eventDefinition.setRegionLocalization(0);
+        eventDefinition.setRewardModes(new ArrayOfInt());
+        eventDefinition.setTimeLimit(0);
+        eventDefinition.setTrackLayoutMap("NeonCrossroads_128");
+        eventDefinition.setTrackLocalization(0);
+        return eventDefinition;
     }
 
     @RequestMapping(value = "/gettreasurehunteventsession", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)

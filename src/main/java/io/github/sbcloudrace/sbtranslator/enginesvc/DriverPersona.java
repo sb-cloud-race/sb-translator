@@ -1,9 +1,6 @@
 package io.github.sbcloudrace.sbtranslator.enginesvc;
 
-import io.github.sbcloudrace.sbtranslator.jaxb.http.ArrayOfInt;
-import io.github.sbcloudrace.sbtranslator.jaxb.http.ArrayOfString;
-import io.github.sbcloudrace.sbtranslator.jaxb.http.PersonaPresence;
-import io.github.sbcloudrace.sbtranslator.jaxb.http.ProfileData;
+import io.github.sbcloudrace.sbtranslator.jaxb.http.*;
 import io.github.sbcloudrace.sbtranslator.sbopenfireapi.SbOpenfireServiceProxy;
 import io.github.sbcloudrace.sbtranslator.sbpersona.SbPersona;
 import io.github.sbcloudrace.sbtranslator.sbpersona.SbPersonaServiceProxy;
@@ -94,7 +91,24 @@ public class DriverPersona {
 
     @RequestMapping(value = "/GetPersonaBaseFromList", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
-    public void getPersonaBaseFromList() {
+    public ArrayOfPersonaBase getPersonaBaseFromList(@RequestBody PersonaIdArray personaIdArray) {
+        ArrayOfPersonaBase arrayOfPersonaBase = new ArrayOfPersonaBase();
+        ArrayOfLong personaIds = personaIdArray.getPersonaIds();
+        personaIds.getLong().forEach(personaId -> {
+            SbPersona persona = sbPersonaServiceProxy.getPersona(personaId);
+            PersonaBase personaBase = new PersonaBase();
+            personaBase.setBadges(new ArrayOfBadgePacket());
+            personaBase.setIconIndex(persona.getIconIndex());
+            personaBase.setLevel(persona.getLevel());
+            personaBase.setMotto("" + persona.getMotto());
+            personaBase.setName(persona.getName());
+            personaBase.setPresence(2);
+            personaBase.setPersonaId(persona.getPersonaId());
+            personaBase.setScore(5);
+            personaBase.setUserId(persona.getUserId());
+            arrayOfPersonaBase.getPersonaBase().add(personaBase);
+        });
+        return arrayOfPersonaBase;
     }
 
     @RequestMapping(value = "/UpdatePersonaPresence", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
@@ -111,6 +125,8 @@ public class DriverPersona {
         SbPersona sbPersona = sbPersonaServiceProxy.getPersona(personaId);
         ProfileData profileData = new ProfileData();
         BeanUtils.copyProperties(sbPersona, profileData);
+        profileData.setBadges(new ArrayOfBadgePacket());
+        profileData.setMotto("");
         return profileData;
     }
 

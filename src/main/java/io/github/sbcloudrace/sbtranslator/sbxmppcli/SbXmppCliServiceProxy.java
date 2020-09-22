@@ -10,8 +10,14 @@ public interface SbXmppCliServiceProxy {
 
     @RequestMapping(value = "/powerups/activated/{personaId}/{targetId}/{powerupHash}/{receivers}",
             method = RequestMethod.PUT)
-    void activated(@PathVariable Long personaId,
-                   @PathVariable("targetId") Long targetId,
-                   @PathVariable Integer powerupHash,
-                   @PathVariable("receivers") String receivers);
+    void powerupActivated(@PathVariable("personaId") Long personaId,
+                          @PathVariable("targetId") Long targetId,
+                          @PathVariable("powerupHash") Integer powerupHash,
+                          @PathVariable("receivers") String receivers);
+
+    @RequestMapping(value = "/lobby/send-join-event/{lobbyInviteId}/{eventId}/{personaId}",
+                method = RequestMethod.PUT)
+    void lobbySendJoinEvent(@PathVariable("lobbyInviteId") Long lobbyId,
+                            @PathVariable("eventId") Integer eventId,
+                            @PathVariable("personaId") Long personaId);
 }

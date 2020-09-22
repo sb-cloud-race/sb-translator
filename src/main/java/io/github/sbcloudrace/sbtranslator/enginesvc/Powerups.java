@@ -23,6 +23,6 @@ public class Powerups {
                           @RequestParam("targetId") Long targetId,
                           @RequestParam("receivers") String receivers) {
         Long activePersonaId = sbSessionServiceProxy.getActivePersonaId(securityToken);
-        sbXmppCliServiceProxy.activated(activePersonaId, targetId, powerupHash, receivers);
+        sbXmppCliServiceProxy.powerupActivated(activePersonaId, targetId, powerupHash, receivers);
     }
 }
