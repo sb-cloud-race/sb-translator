@@ -51,7 +51,7 @@ public class Personas {
         customCarTrans.setBaseCar(22084480);
         customCarTrans.setCarClassHash(872416321);
         customCarTrans.setId(243);
-        customCarTrans.setIsPreset(true);
+        customCarTrans.setIsPreset(false);
         customCarTrans.setLevel(0);
         customCarTrans.setName("240sx");
         ArrayOfCustomPaintTrans arrayOfCustomPaintTrans = new ArrayOfCustomPaintTrans();
@@ -76,8 +76,8 @@ public class Personas {
         ownedCarTrans.setDurability(100);
 //        ownedCarTrans.setExpirationDate(null);
         ownedCarTrans.setHeat(1F);
-        ownedCarTrans.setId(72902239L);
-        ownedCarTrans.setOwnershipType("PresetCar");
+        ownedCarTrans.setId(243L);
+        ownedCarTrans.setOwnershipType("CustomizedCar");
         return ownedCarTrans;
     }
 

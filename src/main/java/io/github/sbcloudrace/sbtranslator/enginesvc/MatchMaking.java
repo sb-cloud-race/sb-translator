@@ -67,9 +67,9 @@ public class MatchMaking {
         List<LobbyEntrantInfo> lobbyEntrantInfoList = arrayOfLobbyEntrantInfo.getLobbyEntrantInfo();
         LobbyEntrantInfo lobbyEntrantInfo = new LobbyEntrantInfo();
         lobbyEntrantInfo.setPersonaId(activePersonaId);
-        lobbyEntrantInfo.setLevel(3);
+        lobbyEntrantInfo.setLevel(60);
         lobbyEntrantInfo.setGridIndex(0);
-        lobbyEntrantInfo.setHeat(0);
+        lobbyEntrantInfo.setHeat(1);
         lobbyEntrantInfo.setState(LobbyEntrantState.IN_LOBBY);
         lobbyEntrantInfoList.add(lobbyEntrantInfo);
 
