@@ -1,6 +1,7 @@
 package io.github.sbcloudrace.sbtranslator.enginesvc;
 
 import io.github.sbcloudrace.sbtranslator.jaxb.http.*;
+import io.github.sbcloudrace.sbtranslator.sbsession.SbSessionLobby;
 import io.github.sbcloudrace.sbtranslator.sbsession.SbSessionServiceProxy;
 import io.github.sbcloudrace.sbtranslator.sbxmppcli.SbXmppCliServiceProxy;
 import lombok.AllArgsConstructor;
@@ -48,7 +49,10 @@ public class MatchMaking {
     public void joinqueueevent(@RequestHeader("securityToken") String securityToken,
                                @PathVariable("eventId") Integer eventId) {
         Long activePersonaId = sbSessionServiceProxy.getActivePersonaId(securityToken);
-        Long lobbyId = 1L;
+        Long lobbyId = sbSessionServiceProxy.getActiveLobbyByEventId(eventId).getLobbyId();
+        if(lobbyId == null){
+            lobbyId = sbSessionServiceProxy.createLobby(eventId);
+        }
         sbXmppCliServiceProxy.lobbySendJoinEvent(lobbyId, eventId, activePersonaId);
     }
 
@@ -57,10 +61,11 @@ public class MatchMaking {
     public LobbyInfo acceptinvite(@RequestHeader("securityToken") String securityToken,
                                   @RequestParam("lobbyInviteId") Long lobbyInviteId) {
         Long activePersonaId = sbSessionServiceProxy.getActivePersonaId(securityToken);
+        SbSessionLobby lobbyById = sbSessionServiceProxy.getLobbyById(lobbyInviteId);
         LobbyCountdown lobbyCountdown = new LobbyCountdown();
         lobbyCountdown.setLobbyId(lobbyInviteId);
-        lobbyCountdown.setEventId(504);
-        lobbyCountdown.setLobbyCountdownInMilliseconds(50000);
+        lobbyCountdown.setEventId(lobbyById.getEventId());
+        lobbyCountdown.setLobbyCountdownInMilliseconds(lobbyById.getTimeToLive());
         lobbyCountdown.setLobbyStuckDurationInMilliseconds(10000);
 
         ArrayOfLobbyEntrantInfo arrayOfLobbyEntrantInfo = new ArrayOfLobbyEntrantInfo();
@@ -76,7 +81,7 @@ public class MatchMaking {
         LobbyInfo lobbyInfo = new LobbyInfo();
         lobbyInfo.setCountdown(lobbyCountdown);
         lobbyInfo.setEntrants(arrayOfLobbyEntrantInfo);
-        lobbyInfo.setEventId(504);
+        lobbyInfo.setEventId(lobbyById.getEventId());
         lobbyInfo.setLobbyId(lobbyInviteId);
         lobbyInfo.setLobbyInviteId(lobbyInviteId);
         return lobbyInfo;

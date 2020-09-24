@@ -17,4 +17,14 @@ public interface SbSessionServiceProxy {
 
     @RequestMapping(value = "/tokensession/active-persona-id/{securityToken}", method = RequestMethod.GET)
     Long getActivePersonaId(@PathVariable("securityToken") String securityToken);
+
+    @RequestMapping(value = "/lobby/event/{eventId}", method = RequestMethod.POST)
+    Long createLobby(@PathVariable("eventId") Integer eventId);
+
+    @RequestMapping(value = "/lobby/{lobbyId}", method = RequestMethod.GET)
+    SbSessionLobby getLobbyById(@PathVariable("lobbyId") Long lobbyId);
+
+    @RequestMapping(value = "/lobby/event/{eventId}", method = RequestMethod.GET)
+    SbSessionLobby getActiveLobbyByEventId(@PathVariable("eventId") Integer eventId);
+
 }
