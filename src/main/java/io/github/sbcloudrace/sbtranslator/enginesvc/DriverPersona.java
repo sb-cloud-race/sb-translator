@@ -172,4 +172,9 @@ public class DriverPersona {
         return profileData;
     }
 
+    @RequestMapping(value = "/UpdateStatusMessage", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public void updateStatusMessage() {
+    }
+
 }
