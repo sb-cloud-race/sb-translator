@@ -13,7 +13,8 @@ public class Achievements {
 
     @RequestMapping(value = "/loadall", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
-    public AchievementsPacket loadall() {
-        return new AchievementsPacket();
+    public String loadall() {
+        return "<AchievementsPacket/>";
+//        return new AchievementsPacket();
     }
 }

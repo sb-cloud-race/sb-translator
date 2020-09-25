@@ -15,6 +15,10 @@ public class Crypto {
     @RequestMapping(value = "/cryptoticket", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
     public ClientServerCryptoTicket cryptoticket() {
-        return new ClientServerCryptoTicket();
+        ClientServerCryptoTicket clientServerCryptoTicket = new ClientServerCryptoTicket();
+        clientServerCryptoTicket.setCryptoTicket("CgsMDQAAAGYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        clientServerCryptoTicket.setSessionKey("AAAAAAAAAAAAAAAAAAAAAA==");
+        clientServerCryptoTicket.setTicketIv("AAAAAAAAAAAAAAAAAAAAAA==");
+        return clientServerCryptoTicket;
     }
 }

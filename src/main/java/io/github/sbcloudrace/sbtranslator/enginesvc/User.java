@@ -44,6 +44,9 @@ public class User {
         listSbPersona.forEach(sbPersona -> {
             ProfileData profileData = new ProfileData();
             BeanUtils.copyProperties(sbPersona, profileData);
+            if (profileData.getMotto() == null) {
+                profileData.setMotto("");
+            }
             arrayOfProfileData.getProfileData().add(profileData);
             personasIds.add(sbPersona.getPersonaId());
         });

@@ -42,11 +42,11 @@ public class Events {
         vector3.setZ(0);
         eventDefinition.setEngagePoint(vector3);
         eventDefinition.setEventId(504);
-        eventDefinition.setEventLocalization(953953223);
-        eventDefinition.setEventModeDescriptionLocalization(1204604434);
+        eventDefinition.setEventLocalization(953954317);
+        eventDefinition.setEventModeDescriptionLocalization(1298130000);
         eventDefinition.setEventModeIcon("GameModeIcon_Drag");
         eventDefinition.setEventModeId(19);
-        eventDefinition.setEventModeLocalization(-1152300457);
+        eventDefinition.setEventModeLocalization(1990101845);
         eventDefinition.setIsEnabled(true);
         eventDefinition.setIsLocked(false);
         eventDefinition.setLaps(0);

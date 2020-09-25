@@ -46,4 +46,10 @@ public class Event {
 
         return pursuitEventResult;
     }
+
+    @RequestMapping(value = "/abort", method = RequestMethod.POST, produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public void abort() {
+    }
+
 }
