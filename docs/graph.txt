@@ -1,33 +1,51 @@
 digraph architecture {
   rankdir=LR;
 
-  game_cli [shape=tripleoctagon];
+  {sb_translator [color=blue]} -> {
+      sb_persona,
+      sb_cars,
+      sb_events,
+      sb_market,
+      sb_store,
+      sb_inventory,
+      sb_arbitration,
+      sb_openfire_api,
+      sb_xmpp_cli,
+      sb_session
+  };
+
+  {rank = same; sb_xmpp_cli, sb_session }
+
+  sb_persona -> {sb_persona_db[color=red,shape=cylinder]} [color=red,arrowhead=none];
+  sb_cars -> {sb_cars_db[color=red,shape=cylinder]} [color=red,arrowhead=none];
+  sb_events -> {sb_events_db[color=red,shape=cylinder]} [color=red,arrowhead=none];
+  sb_market -> {sb_market_db[color=red,shape=cylinder]} [color=red,arrowhead=none];
+  sb_store -> {sb_store_db[color=red,shape=cylinder]} [color=red,arrowhead=none];
+  sb_inventory -> {sb_inventory_db[color=red,shape=cylinder]} [color=red,arrowhead=none];
+  sb_arbitration -> {sb_arbitration_db[color=red,shape=cylinder]} [color=red,arrowhead=none];
+
+  sb_xmpp_cli -> openfire_server [color=blue,arrowhead=none];
+  sb_openfire_api -> openfire_server [color=blue,arrowhead=none];
+  sb_xmpp_cli -> sb_session [arrowhead=inv];
+
+
+  {openfire_server[color=blue,shape=box3d]}->{openfire_db[color=red,shape=cylinder]} [color=red,arrowhead=none];
+
+  sb_session->{redisdb[color=red,shape=cylinder]} [color=red,arrowhead=none];
+
+  sb_auth -> {sb_session, sb_user};
+  sb_user -> {sb_user_db[color=red,shape=cylinder]} [color=red,arrowhead=none]
+
+
   _sb_translator [shape=tripleoctagon,color=blue];
   _openfire_server [shape=tripleoctagon,color=blue];
-  _sb_xmpp_cli [shape=tripleoctagon,color=blue];
+  _sb_xmpp_cli [shape=tripleoctagon];
 
-  redisdb [color=red,shape=cylinder];
-  openfire_server [color=blue, shape=box3d];
-  openfire_db [color=red,shape=cylinder];
-  sb_translator [color=blue];
-  sb_xmpp_cli [color=blue];
-  sb_persona_db [color=red,shape=cylinder];
 
-  game_cli -> {_sb_translator , _openfire_server};
-  game_cli -> {_sb_translator , _openfire_server};
+  {game_cli [shape=tripleoctagon]} -> {_sb_translator , _openfire_server};
   _sb_translator -> {_openfire_server, _sb_xmpp_cli};
   _sb_xmpp_cli -> _openfire_server;
 
-  sb_translator -> {sb_session, sb_xmpp_cli,  sb_openfire_api, sb_persona};
-  sb_session -> {redisdb} [color=red,arrowhead=none];
-  sb_openfire_api -> {openfire_server} [color=blue,arrowhead=none];
-  sb_xmpp_cli -> {openfire_server} [color=blue,arrowhead=none];
-  openfire_server -> openfire_db [color=red,arrowhead=none];
-  sb_persona -> sb_persona_db [color=red,arrowhead=none];
-  
-  sb_auth -> sb_session ,sb_user;
-  sb_user -> {sb_user_db [color=red,shape=cylinder]} [color=red,arrowhead=none];
+  {rank = same; _sb_translator, _openfire_server }
 
-  {rank=same; sb_auth , sb_translator}
-  
 }
